@@ -68,7 +68,7 @@ let AgendaModule = AgendaModule_1 = class AgendaModule {
     }
 };
 AgendaModule = AgendaModule_1 = __decorate([
-    common_1.Module({
+    (0, common_1.Module)({
         providers: [
             {
                 provide: AgendaService,
