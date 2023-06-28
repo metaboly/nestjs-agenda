@@ -1,7 +1,11 @@
-import { Module, DynamicModule, Provider, Inject } from '@nestjs/common';
-import { AgendaModuleOptions, AgendaModuleAsyncOptions, AgendaOptionsFactory } from './interfaces';
-import { AGENDA_MODULE_OPTIONS } from './agenda.constants';
-import * as Agenda from 'agenda';
+import { Module, DynamicModule, Provider, Inject } from "@nestjs/common";
+import {
+  AgendaModuleOptions,
+  AgendaModuleAsyncOptions,
+  AgendaOptionsFactory,
+} from "./interfaces";
+import { AGENDA_MODULE_OPTIONS } from "./agenda.constants";
+import { Agenda } from "agenda";
 
 function createAgendaProvider(options: AgendaModuleOptions): any[] {
   return [{ provide: AGENDA_MODULE_OPTIONS, useValue: options || {} }];
@@ -39,7 +43,9 @@ export class AgendaModule {
     };
   }
 
-  private static createAsyncProviders(options: AgendaModuleAsyncOptions): Provider[] {
+  private static createAsyncProviders(
+    options: AgendaModuleAsyncOptions
+  ): Provider[] {
     if (options.useExisting || options.useFactory) {
       return [this.createAsyncOptionsProvider(options)];
     }
@@ -53,7 +59,7 @@ export class AgendaModule {
   }
 
   private static createAsyncOptionsProvider(
-    options: AgendaModuleAsyncOptions,
+    options: AgendaModuleAsyncOptions
   ): Provider {
     if (options.useFactory) {
       return {
@@ -65,9 +71,9 @@ export class AgendaModule {
     return {
       provide: AGENDA_MODULE_OPTIONS,
       // tslint:disable-next-line:max-line-length
-      useFactory: async (optionsFactory: AgendaOptionsFactory) => await optionsFactory.createAgendaOptions(),
+      useFactory: async (optionsFactory: AgendaOptionsFactory) =>
+        await optionsFactory.createAgendaOptions(),
       inject: [options.useExisting || options.useClass],
     };
   }
-
 }
